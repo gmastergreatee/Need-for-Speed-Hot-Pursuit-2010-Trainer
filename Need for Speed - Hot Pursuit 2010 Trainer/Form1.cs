@@ -19,6 +19,8 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             timer.Start();
 
             InitializeComponent();
+
+            this.ResetTrainer();
         }
 
         private void timer_elapsed(object? sender, ElapsedEventArgs e)
@@ -26,22 +28,28 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             var pid = m.GetProcIdFromName(gameExeName);
             if (isAttached && pid == 0)
             {
-                isAttached = false;
-                // detached from process
+                this.ResetTrainer();
             }
 
-            if (isAttached && processId != pid)
+            if (
+                (isAttached && processId != pid) ||
+                (!isAttached && pid != 0)
+            )
             {
-                // new instance of game found
                 processId = pid;
-                // inject related code and prepare trainer
+                this.PrepareForCodeInjection();
             }
+        }
 
-            if (!isAttached && pid != 0)
-            {
-                processId = pid;
-                // inject related code and prepare trainer
-            }
+        private void ResetTrainer()
+        {
+            isAttached = false;
+            processId = 0;
+        }
+
+        private void PrepareForCodeInjection()
+        {
+
         }
     }
 }
