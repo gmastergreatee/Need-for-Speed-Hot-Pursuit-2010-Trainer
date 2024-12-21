@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Unlimited Nitro"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Need for Speed™ Hot Pursuit
+  Version: 
+  Date   : 2024-12-09
+  Author : gmastergreatee
+
+  This script does blah blah blah
+}
+
+define(address,"NFS11.exe"+1D8DA0)
+define(bytes,F3 0F 10 84 0A F4 C6 03 00)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+label(botNitro)
+label(cheatEnd)
+
+newmem: //this is allocated memory, you have read,write,execute access
+  //place your code here
+  pushad
+  cmp [edx+ecx+0003C6F4+10], 0
+  jne botNitro
+  mov [edx+ecx+0003C6F4], (float)100
+  jmp cheatEnd
+botNitro:
+  mov [edx+ecx+0003C6F4], 0
+cheatEnd:
+  popad
+
+code:
+  movss xmm0,[edx+ecx+0003C6F4]
+  jmp return
+
+address:
+  jmp newmem
+  nop 4
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // movss xmm0,[edx+ecx+0003C6F4]
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: NFS11.exe+1D8DA0
+
+NFS11.exe+1D8D8C: CC                          - int 3 
+NFS11.exe+1D8D8D: CC                          - int 3 
+NFS11.exe+1D8D8E: CC                          - int 3 
+NFS11.exe+1D8D8F: CC                          - int 3 
+NFS11.exe+1D8D90: 56                          - push esi
+NFS11.exe+1D8D91: 8B F1                       - mov esi,ecx
+NFS11.exe+1D8D93: 8B 46 04                    - mov eax,[esi+04]
+NFS11.exe+1D8D96: 8B 0E                       - mov ecx,[esi]
+NFS11.exe+1D8D98: 8B D0                       - mov edx,eax
+NFS11.exe+1D8D9A: 69 D2 B8 00 00 00           - imul edx,edx,000000B8
+// ---------- INJECTING HERE ----------
+NFS11.exe+1D8DA0: F3 0F 10 84 0A F4 C6 03 00  - movss xmm0,[edx+ecx+0003C6F4]
+// ---------- DONE INJECTING  ----------
+NFS11.exe+1D8DA9: F3 0F 59 05 58 DD C4 00     - mulss xmm0,[NFS11.exe+84DD58]
+NFS11.exe+1D8DB1: 57                          - push edi
+NFS11.exe+1D8DB2: 81 C1 90 C6 03 00           - add ecx,0003C690
+NFS11.exe+1D8DB8: 50                          - push eax
+NFS11.exe+1D8DB9: F3 0F 11 46 08              - movss [esi+08],xmm0
+NFS11.exe+1D8DBE: E8 CD EF FF FF              - call NFS11.exe+1D7D90
+NFS11.exe+1D8DC3: 8B 56 04                    - mov edx,[esi+04]
+NFS11.exe+1D8DC6: 8B 3E                       - mov edi,[esi]
+NFS11.exe+1D8DC8: 8B CA                       - mov ecx,edx
+NFS11.exe+1D8DCA: 69 C9 B8 00 00 00           - imul ecx,ecx,000000B8
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Unlimited Utils"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Need for Speed™ Hot Pursuit
+  Version: 
+  Date   : 2024-12-10
+  Author : gmastergreatee
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,NFS11.exe,83 3C 96 00 0F 8E 48 03 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(playercode)
+label(botcode)
+label(return)
+
+newmem:
+  pushad
+  lea eax, [esi+edx*4]
+  sub eax, 48
+  cmp dword ptr [eax], 0
+
+  jne botcode
+  // this needs to be refined more,
+  // coz sometimes some utils are left out to be set to 99
+  // if they aren't unlocked at the time of race
+playercode:
+  mov [esi+edx*4],(int)99
+  jmp code
+
+botcode:
+  mov [esi+edx*4],0
+
+code:
+  popad
+  cmp dword ptr [esi+edx*4],00
+  jng NFS11.exe+1770F5
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 5
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 83 3C 96 00 0F 8E 48 03 00 00
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: NFS11.exe+176DA3
+
+NFS11.exe+176D71: 0F 84 94 03 00 00           - je NFS11.exe+17710B
+NFS11.exe+176D77: 83 BC 11 BC 08 00 00 FF     - cmp dword ptr [ecx+edx+000008BC],-01
+NFS11.exe+176D7F: 0F 95 C1                    - setne cl
+NFS11.exe+176D82: 84 C9                       - test cl,cl
+NFS11.exe+176D84: 0F 84 81 03 00 00           - je NFS11.exe+17710B
+NFS11.exe+176D8A: BF 01 00 00 00              - mov edi,00000001
+NFS11.exe+176D8F: 90                          - nop 
+NFS11.exe+176D90: 8B 8E A0 00 00 00           - mov ecx,[esi+000000A0]
+NFS11.exe+176D96: 8B 99 A0 7A 01 00           - mov ebx,[ecx+00017AA0]
+NFS11.exe+176D9C: 8D 94 38 66 01 00 00        - lea edx,[eax+edi+00000166]
+// ---------- INJECTING HERE ----------
+NFS11.exe+176DA3: 83 3C 96 00                 - cmp dword ptr [esi+edx*4],00
+// ---------- DONE INJECTING  ----------
+NFS11.exe+176DA7: 0F 8E 48 03 00 00           - jng NFS11.exe+1770F5
+NFS11.exe+176DAD: 8D 0C 38                    - lea ecx,[eax+edi]
+NFS11.exe+176DB0: F3 0F 10 9C 8E B8 03 00 00  - movss xmm3,[esi+ecx*4+000003B8]
+NFS11.exe+176DB9: 0F 2F E3                    - comiss xmm4,xmm3
+NFS11.exe+176DBC: 8D 8C 8E B8 03 00 00        - lea ecx,[esi+ecx*4+000003B8]
+NFS11.exe+176DC3: 89 4C 24 3C                 - mov [esp+3C],ecx
+NFS11.exe+176DC7: 8D 0C 38                    - lea ecx,[eax+edi]
+NFS11.exe+176DCA: 0F 86 87 02 00 00           - jbe NFS11.exe+177057
+NFS11.exe+176DD0: F3 0F 10 84 8E 78 07 00 00  - movss xmm0,[esi+ecx*4+00000778]
+NFS11.exe+176DD9: 0F 2F 05 E4 BE C4 00        - comiss xmm0,[NFS11.exe+84BEE4]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"Unlimited HP"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Need for Speed™ Hot Pursuit
+  Version: 
+  Date   : 2024-12-19
+  Author : gmastergreatee
+
+  This script does blah blah blah
+}
+
+define(address,"NFS11.exe"+5680D)
+define(bytes,0F 28 80 B0 1A 00 00)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+label(playercode)
+label(botcode) // +30 = 0
+
+newmem:
+  pushad
+  cmp [eax+00001AB0+30],0
+  je botcode
+playercode:
+  mov [eax+00001AB0],(float)0
+  jmp code
+botcode:
+  mov [eax+00001AB0],(float)1
+
+code:
+  popad
+  movaps xmm0,[eax+00001AB0]
+  jmp return
+
+address:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // movaps xmm0,[eax+00001AB0]
+
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: NFS11.exe+5680D
+
+NFS11.exe+567DA: 8B 90 A0 25 04 00     - mov edx,[eax+000425A0]
+NFS11.exe+567E0: 8B 4C CA 04           - mov ecx,[edx+ecx*8+04]
+NFS11.exe+567E4: 05 80 25 04 00        - add eax,00042580
+NFS11.exe+567E9: E8 52 20 2E 00        - call NFS11.exe+338840
+NFS11.exe+567EE: 89 86 FC 16 00 00     - mov [esi+000016FC],eax
+NFS11.exe+567F4: 8B 47 04              - mov eax,[edi+04]
+NFS11.exe+567F7: 8B 8C 03 80 25 04 00  - mov ecx,[ebx+eax+00042580]
+NFS11.exe+567FE: 8B 90 A0 25 04 00     - mov edx,[eax+000425A0]
+NFS11.exe+56804: 05 80 25 04 00        - add eax,00042580
+NFS11.exe+56809: 8B 44 CA 04           - mov eax,[edx+ecx*8+04]
+// ---------- INJECTING HERE ----------
+NFS11.exe+5680D: 0F 28 80 B0 1A 00 00  - movaps xmm0,[eax+00001AB0]
+// ---------- DONE INJECTING  ----------
+NFS11.exe+56814: 0F 29 86 B0 01 00 00  - movaps [esi+000001B0],xmm0
+NFS11.exe+5681B: 8B 47 04              - mov eax,[edi+04]
+NFS11.exe+5681E: 8B 8C 03 80 25 04 00  - mov ecx,[ebx+eax+00042580]
+NFS11.exe+56825: 8B 90 A0 25 04 00     - mov edx,[eax+000425A0]
+NFS11.exe+5682B: 0F 28 96 C0 01 00 00  - movaps xmm2,[esi+000001C0]
+NFS11.exe+56832: 05 80 25 04 00        - add eax,00042580
+NFS11.exe+56837: 8B 44 CA 04           - mov eax,[edx+ecx*8+04]
+NFS11.exe+5683B: 0F 28 88 C0 1A 00 00  - movaps xmm1,[eax+00001AC0]
+NFS11.exe+56842: 05 C0 1A 00 00        - add eax,00001AC0
+NFS11.exe+56847: 0F 28 C2              - movaps xmm0,xmm2
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Nitro Accessor :movss xmm0,[edx+ecx+0003C6F4]</Description>
+      <AddressString>NFS11.exe+1D8DA0</AddressString>
+      <Before>
+        <Byte>D2</Byte>
+        <Byte>B8</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>84</Byte>
+        <Byte>0A</Byte>
+        <Byte>F4</Byte>
+        <Byte>C6</Byte>
+        <Byte>03</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>59</Byte>
+        <Byte>05</Byte>
+        <Byte>58</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Util Accessor :cmp dword ptr [esi+edx*4],00</Description>
+      <AddressString>NFS11.exe+176DA3</AddressString>
+      <Before>
+        <Byte>38</Byte>
+        <Byte>66</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>83</Byte>
+        <Byte>3C</Byte>
+        <Byte>96</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>0F</Byte>
+        <Byte>8E</Byte>
+        <Byte>48</Byte>
+        <Byte>03</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>HP accesspr :movaps xmm0,[eax+00001AB0]</Description>
+      <AddressString>NFS11.exe+5680D</AddressString>
+      <Before>
+        <Byte>00</Byte>
+        <Byte>8B</Byte>
+        <Byte>44</Byte>
+        <Byte>CA</Byte>
+        <Byte>04</Byte>
+      </Before>
+      <Actual>
+        <Byte>0F</Byte>
+        <Byte>28</Byte>
+        <Byte>80</Byte>
+        <Byte>B0</Byte>
+        <Byte>1A</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>0F</Byte>
+        <Byte>29</Byte>
+        <Byte>86</Byte>
+        <Byte>B0</Byte>
+        <Byte>01</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>
