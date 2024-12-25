@@ -16,4 +16,8 @@
 	  <None Remove="Need for Speed™ Hot Pursuit.CT" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Memory\Memory.csproj" />
+	</ItemGroup>
+
 </Project>

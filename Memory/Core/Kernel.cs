@@ -8,7 +8,7 @@ namespace Memory.Core
         {
             internal static class DW_DesiredAccess
             {
-                public static int PROCESS_ALL_ACCESS = 0x1F0FFF;
+                public static uint PROCESS_ALL_ACCESS = 0x1F0FFF;
             }
 
             internal static class FL_AllocationType
@@ -27,7 +27,7 @@ namespace Memory.Core
         public static extern IntPtr OpenProcess(UInt32 dwDesiredAccess, bool bInheritHandle, Int32 dwProcessId);
 
         [DllImport("kernel32.dll")]
-        public static extern int CloseHandle(IntPtr hObject);
+        public static extern Int32 CloseHandle(IntPtr hObject);
 
         [DllImport("psapi.dll", SetLastError = true)]
         public static extern bool EnumProcessModules(IntPtr hProcess, [Out] IntPtr lphModule, uint cb, [MarshalAs(UnmanagedType.U4)] out uint lpcbNeeded);

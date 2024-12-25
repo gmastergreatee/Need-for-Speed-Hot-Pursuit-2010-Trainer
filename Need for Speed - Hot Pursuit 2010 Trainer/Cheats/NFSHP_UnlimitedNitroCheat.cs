@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Need_for_Speed___Hot_Pursuit_2010_Trainer.Core;
+﻿using Memory;
 using Need_for_Speed___Hot_Pursuit_2010_Trainer.Core.Model.Type;
 
 namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
 {
     public class NFSHP_UnlimitedNitroCheat : CodeInjectionCheat
     {
-        Memory.Memory mem;
+        public Memory.Memory Mem { get; }
 
         public NFSHP_UnlimitedNitroCheat(Memory.Memory mem)
         {
-            this.mem = mem;
+            this.Mem = mem;
         }
 
         public override bool InitCheat()
@@ -22,6 +17,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
             // put aob in codecave
             // 
             // replace jump paths
+            return true;
         }
 
         public override bool ToggleCheat()
