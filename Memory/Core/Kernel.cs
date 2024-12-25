@@ -6,20 +6,20 @@ namespace Memory.Core
     {
         internal static class Imps
         {
-            internal static class DesiredAccess
+            internal static class DW_DesiredAccess
             {
                 public static int PROCESS_ALL_ACCESS = 0x1F0FFF;
             }
 
-            internal static class AllocationType
+            internal static class FL_AllocationType
             {
-                public static int flAllocationType_MEM_COMMIT = 0;
-                public static int flAllocationType_MEM_RESERVE = 0;
+                public static int MEM_COMMIT = 0;
+                public static int MEM_RESERVE = 0;
             }
 
-            internal static class Protection
+            internal static class FL_Protection
             {
-                public static int flProtect_PAGE_EXECUTE_READWRITE = 0;
+                public static int PAGE_EXECUTE_READWRITE = 0;
             }
         }
 
