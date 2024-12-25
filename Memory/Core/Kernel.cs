@@ -13,13 +13,13 @@ namespace Memory.Core
 
             internal static class FL_AllocationType
             {
-                public static int MEM_COMMIT = 0;
-                public static int MEM_RESERVE = 0;
+                public static int MEM_COMMIT = 0x00001000;
+                public static int MEM_RESERVE = 0x00002000;
             }
 
             internal static class FL_Protection
             {
-                public static int PAGE_EXECUTE_READWRITE = 0;
+                public static int PAGE_EXECUTE_READWRITE = 0x40;
             }
         }
 
