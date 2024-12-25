@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Memory
+namespace MemoryDll
 {
     /// <summary>
     /// AoB scan information.

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Memory.Imps;
+using static MemoryDll.Imps;
 
-namespace Memory
+namespace MemoryDll
 {
     public partial class Mem
     {
@@ -345,44 +345,44 @@ namespace Memory
 
         }
 
-        public int ReadPByte(UIntPtr address, string code, string file = "")
-        {
-            byte[] memory = new byte[4];
-            if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memory, (UIntPtr)1, IntPtr.Zero))
-                return BitConverter.ToInt32(memory, 0);
-            else
-                return 0;
-        }
+        //public int ReadPByte(UIntPtr address, string code, string file = "")
+        //{
+        //    byte[] memory = new byte[4];
+        //    if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memory, (UIntPtr)1, IntPtr.Zero))
+        //        return BitConverter.ToInt32(memory, 0);
+        //    else
+        //        return 0;
+        //}
 
-        public float ReadPFloat(UIntPtr address, string code, string file = "")
-        {
-            byte[] memory = new byte[4];
-            if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memory, (UIntPtr)4, IntPtr.Zero))
-            {
-                float spawn = BitConverter.ToSingle(memory, 0);
-                return (float)Math.Round(spawn, 2);
-            }
-            else
-                return 0;
-        }
+        //public float ReadPFloat(UIntPtr address, string code, string file = "")
+        //{
+        //    byte[] memory = new byte[4];
+        //    if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memory, (UIntPtr)4, IntPtr.Zero))
+        //    {
+        //        float spawn = BitConverter.ToSingle(memory, 0);
+        //        return (float)Math.Round(spawn, 2);
+        //    }
+        //    else
+        //        return 0;
+        //}
 
-        public int ReadPInt(UIntPtr address, string code, string file = "")
-        {
-            byte[] memory = new byte[4];
-            if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memory, (UIntPtr)4, IntPtr.Zero))
-                return BitConverter.ToInt32(memory, 0);
-            else
-                return 0;
-        }
+        //public int ReadPInt(UIntPtr address, string code, string file = "")
+        //{
+        //    byte[] memory = new byte[4];
+        //    if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memory, (UIntPtr)4, IntPtr.Zero))
+        //        return BitConverter.ToInt32(memory, 0);
+        //    else
+        //        return 0;
+        //}
 
-        public string ReadPString(UIntPtr address, string code, string file = "")
-        {
-            byte[] memoryNormal = new byte[32];
-            if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memoryNormal, (UIntPtr)32, IntPtr.Zero))
-                return CutString(System.Text.Encoding.ASCII.GetString(memoryNormal));
-            else
-                return "";
-        }
+        //public string ReadPString(UIntPtr address, string code, string file = "")
+        //{
+        //    byte[] memoryNormal = new byte[32];
+        //    if (ReadProcessMemory(mProc.Handle, address + LoadIntCode(code, file), memoryNormal, (UIntPtr)32, IntPtr.Zero))
+        //        return CutString(System.Text.Encoding.ASCII.GetString(memoryNormal));
+        //    else
+        //        return "";
+        //}
 
         public T ReadMemory<T>(string address, string file = "")
         {

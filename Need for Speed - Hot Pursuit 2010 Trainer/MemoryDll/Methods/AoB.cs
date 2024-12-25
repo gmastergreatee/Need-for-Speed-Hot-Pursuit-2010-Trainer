@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using static Memory.Imps;
+using static MemoryDll.Imps;
 
-namespace Memory
+namespace MemoryDll
 {
     public partial class Mem
     {

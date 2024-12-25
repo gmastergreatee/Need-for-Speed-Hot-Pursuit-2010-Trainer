@@ -11,7 +11,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

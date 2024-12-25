@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Memory
+namespace MemoryDll
 {
     /// <summary>
     /// Information about the opened process.

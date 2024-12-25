@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static Memory.Imps;
+using static MemoryDll.Imps;
 
-namespace Memory
+namespace MemoryDll
 {
     public partial class Mem
     {

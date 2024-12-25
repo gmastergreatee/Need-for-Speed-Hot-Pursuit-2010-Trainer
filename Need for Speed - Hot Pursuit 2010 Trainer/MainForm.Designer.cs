@@ -1,6 +1,6 @@
 ﻿namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.

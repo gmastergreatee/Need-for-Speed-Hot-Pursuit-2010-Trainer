@@ -1,9 +1,9 @@
 using System.Timers;
-using Memory;
+using MemoryDll;
 
 namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         System.Timers.Timer timer;
         Mem m = new Mem();
@@ -12,7 +12,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
         bool isAttached = false;
         int processId = 0;
 
-        public Form1()
+        public MainForm()
         {
             timer = new System.Timers.Timer(200);
             timer.Elapsed += timer_elapsed;

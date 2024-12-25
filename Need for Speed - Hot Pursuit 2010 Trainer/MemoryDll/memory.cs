@@ -9,9 +9,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using static Memory.Imps;
+using static MemoryDll.Imps;
 
-namespace Memory
+namespace MemoryDll
 {
     /// <summary>
     /// Memory.dll class. Full documentation at https://github.com/erfg12/memory.dll/wiki
@@ -96,9 +96,12 @@ namespace Memory
 
                 mProc.Handle = Imps.OpenProcess(0x1F0FFF, true, pid);
 
-                try {
-                    Process.EnterDebugMode(); 
-                } catch (Win32Exception) {
+                try
+                {
+                    Process.EnterDebugMode();
+                }
+                catch (Win32Exception)
+                {
                     //Debug.WriteLine("WARNING: You are not running with raised privileges! Visit https://github.com/erfg12/memory.dll/wiki/Administrative-Privileges"); 
                 }
 
@@ -123,7 +126,8 @@ namespace Memory
                 FailReason = "";
                 return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.WriteLine("ERROR: OpenProcess has crashed. " + ex);
                 FailReason = "OpenProcess has crashed. " + ex;
                 return false;
@@ -292,7 +296,8 @@ namespace Memory
                     return intValue;
                 else
                     return 0;
-            } catch
+            }
+            catch
             {
                 Debug.WriteLine("ERROR: LoadIntCode function crashed!");
                 return 0;
@@ -320,22 +325,22 @@ namespace Memory
                     sw.WriteLine(func);
                 }
             }
-        }        
+        }
 
         // WARNING: Works, but flags as virus
         //#region protection
 
         //public bool ChangeProtection(string code, MemoryProtection newProtection, out MemoryProtection oldProtection, string file = "")
         //{
-	       // UIntPtr theCode = GetCode(code, file);
-	       // if (theCode == UIntPtr.Zero 
-	       //     || mProc.Handle == IntPtr.Zero)
-	       // {
-		      //  oldProtection = default;
-		      //  return false;
-	       // }
+        // UIntPtr theCode = GetCode(code, file);
+        // if (theCode == UIntPtr.Zero 
+        //     || mProc.Handle == IntPtr.Zero)
+        // {
+        //  oldProtection = default;
+        //  return false;
+        // }
 
-	       // return VirtualProtectEx(mProc.Handle, theCode, (IntPtr)(mProc.Is64Bit ? 8 : 4), newProtection, out oldProtection);
+        // return VirtualProtectEx(mProc.Handle, theCode, (IntPtr)(mProc.Is64Bit ? 8 : 4), newProtection, out oldProtection);
         //}
         //#endregion
 
@@ -383,7 +388,8 @@ namespace Memory
                 try
                 {
                     return new UIntPtr(Convert.ToUInt32(theCode, 16));
-                } catch
+                }
+                catch
                 {
                     Console.WriteLine("Error in GetCode(). Failed to read address " + theCode);
                     return UIntPtr.Zero;
@@ -405,7 +411,7 @@ namespace Memory
                 foreach (string oldOffsets in newerOffsets)
                 {
                     string test = oldOffsets;
-                    if (oldOffsets.Contains("0x")) test = oldOffsets.Replace("0x","");
+                    if (oldOffsets.Contains("0x")) test = oldOffsets.Replace("0x", "");
                     int preParse = 0;
                     if (!oldOffsets.Contains("-"))
                         preParse = Int32.Parse(test, NumberStyles.AllowHexSpecifier);
@@ -420,7 +426,7 @@ namespace Memory
                 int[] offsets = offsetsList.ToArray();
 
                 bool mainBase = (theCode.ToLower().Contains("base") || theCode.ToLower().Contains("main")) && !theCode.ToLower().Contains(".dll") && !theCode.ToLower().Contains(".exe");
-                
+
                 if (mainBase)
                     ReadProcessMemory(mProc.Handle, (UIntPtr)((int)mProc.MainModule.BaseAddress + offsets[0]), memoryAddress, (UIntPtr)size, IntPtr.Zero);
                 else if (!mainBase && theCode.Contains("+"))
@@ -468,7 +474,7 @@ namespace Memory
                 IntPtr altModule = IntPtr.Zero;
                 //Debug.WriteLine("newOffsets=" + newOffsets);
                 bool mainBase = (theCode.ToLower().Contains("base") || theCode.ToLower().Contains("main")) && !theCode.ToLower().Contains(".dll") && !theCode.ToLower().Contains(".exe");
-                
+
                 if (mainBase)
                     altModule = mProc.MainModule.BaseAddress;
                 else if (!mainBase && theCode.Contains("+"))
@@ -504,7 +510,7 @@ namespace Memory
         /// </summary>
         /// <param name="name">name of module</param>
         /// <returns></returns>
-        public IntPtr GetModuleAddressByName (string name)
+        public IntPtr GetModuleAddressByName(string name)
         {
             return mProc.Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, name, StringComparison.OrdinalIgnoreCase)).BaseAddress;
         }
@@ -539,7 +545,8 @@ namespace Memory
 
             if (!theCode.Contains("+") && !theCode.Contains(","))
             {
-                try {
+                try
+                {
                     return new UIntPtr(Convert.ToUInt64(theCode, 16));
                 }
                 catch
@@ -572,7 +579,7 @@ namespace Memory
                 Int64[] offsets = offsetsList.ToArray();
 
                 bool mainBase = (theCode.ToLower().Contains("base") || theCode.ToLower().Contains("main")) && !theCode.ToLower().Contains(".dll") && !theCode.ToLower().Contains(".exe");
-                
+
                 if (mainBase)
                     ReadProcessMemory(mProc.Handle, (UIntPtr)((Int64)mProc.MainModule.BaseAddress + offsets[0]), memoryAddress, (UIntPtr)size, IntPtr.Zero);
                 else if (!mainBase && theCode.Contains("+"))
@@ -616,7 +623,7 @@ namespace Memory
                 IntPtr altModule = IntPtr.Zero;
 
                 bool mainBase = (theCode.ToLower().Contains("base") || theCode.ToLower().Contains("main")) && !theCode.ToLower().Contains(".dll") && !theCode.ToLower().Contains(".exe");
-                
+
                 if (mainBase)
                     altModule = mProc.MainModule.BaseAddress;
                 else if (!mainBase && theCode.Contains("+"))
@@ -736,7 +743,7 @@ namespace Memory
             UIntPtr caveAddress = UIntPtr.Zero;
             UIntPtr prefered = address;
 
-            for(var i = 0; i < 10 && caveAddress == UIntPtr.Zero; i++)
+            for (var i = 0; i < 10 && caveAddress == UIntPtr.Zero; i++)
             {
                 caveAddress = VirtualAllocEx(mProc.Handle, FindFreeBlockForRegion(prefered, (uint)size), (uint)size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
@@ -758,7 +765,7 @@ namespace Memory
             jmpBytes[0] = 0xE9;
             BitConverter.GetBytes(offset).CopyTo(jmpBytes, 1);
 
-            for(var i = 5; i < jmpBytes.Length; i++)
+            for (var i = 5; i < jmpBytes.Length; i++)
             {
                 jmpBytes[i] = 0x90;
             }
@@ -775,7 +782,7 @@ namespace Memory
 
             return caveAddress;
         }
-        
+
         private UIntPtr FindFreeBlockForRegion(UIntPtr baseAddress, uint size)
         {
             UIntPtr minAddress = UIntPtr.Subtract(baseAddress, 0x70000000);
@@ -809,7 +816,7 @@ namespace Memory
 
             while (VirtualQueryEx(mProc.Handle, current, out mbi).ToUInt64() != 0)
             {
-               if ((long)mbi.BaseAddress > (long)maxAddress)
+                if ((long)mbi.BaseAddress > (long)maxAddress)
                     return UIntPtr.Zero;  // No memory found, let windows handle
 
                 if (mbi.State == MEM_FREE && mbi.RegionSize > size)
@@ -822,12 +829,12 @@ namespace Memory
                                            ((long)tmpAddress % si.allocationGranularity));
 
                         // Check if there is enough left
-                        if((mbi.RegionSize - offset) >= size)
+                        if ((mbi.RegionSize - offset) >= size)
                         {
                             // yup there is enough
                             tmpAddress = UIntPtr.Add(tmpAddress, offset);
 
-                            if((long)tmpAddress < (long)baseAddress)
+                            if ((long)tmpAddress < (long)baseAddress)
                             {
                                 tmpAddress = UIntPtr.Add(tmpAddress, (int)(mbi.RegionSize - offset - size));
 
@@ -847,9 +854,9 @@ namespace Memory
                     {
                         tmpAddress = mbi.BaseAddress;
 
-                        if((long)tmpAddress < (long)baseAddress) // try to get it the cloest possible 
-                                                                 // (so to the end of the region - size and
-                                                                 // aligned by system allocation granularity)
+                        if ((long)tmpAddress < (long)baseAddress) // try to get it the cloest possible 
+                                                                  // (so to the end of the region - size and
+                                                                  // aligned by system allocation granularity)
                         {
                             tmpAddress = UIntPtr.Add(tmpAddress, (int)(mbi.RegionSize - size));
 
@@ -870,7 +877,7 @@ namespace Memory
                     mbi.RegionSize += si.allocationGranularity - (mbi.RegionSize % si.allocationGranularity);
 
                 previous = current;
-                current = new UIntPtr( ((ulong)mbi.BaseAddress) + (ulong)mbi.RegionSize);
+                current = new UIntPtr(((ulong)mbi.BaseAddress) + (ulong)mbi.RegionSize);
 
                 if ((long)current >= (long)maxAddress)
                     return ret;
@@ -938,7 +945,8 @@ namespace Memory
             }
         }
 
-        public byte[] FileToBytes(string path, bool dontDelete = false) {
+        public byte[] FileToBytes(string path, bool dontDelete = false)
+        {
             byte[] newArray = File.ReadAllBytes(path);
             if (!dontDelete)
                 File.Delete(path);
