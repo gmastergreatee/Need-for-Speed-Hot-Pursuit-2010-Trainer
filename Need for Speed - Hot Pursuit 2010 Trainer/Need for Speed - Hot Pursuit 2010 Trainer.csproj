@@ -12,4 +12,8 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <None Remove="Need for Speed™ Hot Pursuit.CT" />
+	</ItemGroup>
+
 </Project>

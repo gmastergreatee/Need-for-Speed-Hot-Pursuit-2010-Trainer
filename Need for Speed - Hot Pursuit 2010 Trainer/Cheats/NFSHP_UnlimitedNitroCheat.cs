@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MemoryDll;
 using Need_for_Speed___Hot_Pursuit_2010_Trainer.Core;
 using Need_for_Speed___Hot_Pursuit_2010_Trainer.Core.Model.Type;
 
@@ -11,9 +10,9 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
 {
     public class NFSHP_UnlimitedNitroCheat : CodeInjectionCheat
     {
-        Mem mem;
+        Memory.Memory mem;
 
-        public NFSHP_UnlimitedNitroCheat(Mem mem)
+        public NFSHP_UnlimitedNitroCheat(Memory.Memory mem)
         {
             this.mem = mem;
         }
@@ -27,7 +26,12 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
 
         public override bool ToggleCheat()
         {
-            throw new NotImplementedException();
+            var cheatStatus = true;
+
+            // toggle cheat code
+
+            TriggerStatusChanged(cheatStatus);
+            return cheatStatus;
         }
     }
 }

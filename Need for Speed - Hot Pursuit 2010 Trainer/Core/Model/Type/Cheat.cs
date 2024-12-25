@@ -2,6 +2,14 @@
 {
     public abstract class Cheat
     {
+        public delegate void CheatStatusChangeEvent(bool statusChanged);
+        public event CheatStatusChangeEvent StatusChanged;
+
         public CheatTypeEnum CheatType { get; set; }
+
+        protected void TriggerStatusChanged(bool status)
+        {
+            StatusChanged?.Invoke(status);
+        }
     }
 }
