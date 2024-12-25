@@ -11,7 +11,7 @@ namespace Memory
         public bool OpenProcess(string processName)
         {
             var procs = Process.GetProcessesByName(processName);
-            if (procs.Count() <= 0) { return false; }
+            if (procs.Length <= 0) { return false; }
 
             this.Process = procs[0];
             this.ProcessHandle = Kernel.OpenProcess(Kernel.Imps.DW_DesiredAccess.PROCESS_ALL_ACCESS, true, this.Process.Id);
