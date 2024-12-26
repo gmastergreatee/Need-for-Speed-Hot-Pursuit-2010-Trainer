@@ -44,7 +44,36 @@ E9 {NitroJumpReturn}
         public static string UtilsAccessorAddress { get; set; } = "NFS11.exe+176DA3";
         public static string UtilsAccessorBytes { get; set; } = "83 3C 96 00 0F 8E 48 03 00 00";
 
+        #region HP Cheat data
+        public const string HP_Player_CheatName = "UnlimitedHPCheat";
+        public const string HPTriggerByte_PlayerVariable = "isPlayerFullHP";
         public static string HPAccessorAddress { get; set; } = "\"NFS11.exe\"+5680D";
         public static string HPAccessorBytes { get; set; } = "0F 28 80 B0 1A 00 00";
+        public static string HPJumpBytes { get; set; } = @"
+{:HPJumpAddress} E9 {HPCaveAddress}
+90 90
+{:HPJumpReturn}";
+        public static string HPCaveBytes { get; set; } = @"
+{:HPCaveAddress} 60
+83 B8 E0 1A 00 00 00
+0F 84 {BotHPCode}
+{:PlayerHPCode} 80 3D {" + HPTriggerByte_PlayerVariable + @",var} 01
+0F 85 {HPEnd}
+C7 80 B0 1A 00 00 00 00 00 00
+E9 {HPEnd}
+{:BotHPCode} 80 3D {" + HPTriggerByte_BotVariable + @",var} 01
+0F 85 {HPEnd}
+C7 80 B0 1A 00 00 00 00 80 3F
+{:HPEnd} 61
+0F 28 80 B0 1A 00 00
+E9 {HPJumpReturn}
+{:" + HPTriggerByte_PlayerVariable + @"} 00
+{:" + HPTriggerByte_BotVariable + @"} 00";
+
+        #region Takedown Cheat data
+        public const string HP_Bot_CheatName = "InstantTakeDownCheat";
+        public const string HPTriggerByte_BotVariable = "isInstantTakedown";
+        #endregion
+        #endregion
     }
 }
