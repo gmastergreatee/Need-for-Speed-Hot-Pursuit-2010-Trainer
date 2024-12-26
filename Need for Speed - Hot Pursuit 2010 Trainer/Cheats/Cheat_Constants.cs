@@ -4,7 +4,7 @@
     {
         public static string FormTitle { get; set; } = "Need for Speed Hot Pursuit 2010 Trainer";
         public static string GameExeName { get; set; } = "NFS11";
-        public static uint CodeCaveMinSizeInBytes { get; set; } = 5 * 1024;
+        public static uint CodeCaveMinSizeInBytes { get; set; } = 2 * 1024;
 
         #region Nitro Cheat data
         public const string Nitro_Player_CheatName = "UnlimitedNitroCheat";

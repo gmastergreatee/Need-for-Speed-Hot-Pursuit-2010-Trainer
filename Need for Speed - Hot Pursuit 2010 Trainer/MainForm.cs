@@ -68,20 +68,53 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             var unlimitedNitroCheat = new NFSHP_UnlimitedNitroCheat();
             var noBotsWithNitroCheat = new NFSHP_NoBotsWithNitroCheat(unlimitedNitroCheat);
 
+            var unlimitedHPCheat = new NFSHP_UnlimitedHPCheat();
+            var instantTakedownCheat = new NFSHP_InstantTakedownCheat(unlimitedHPCheat);
+
             return
             [
                 unlimitedNitroCheat,
                 noBotsWithNitroCheat,
+                unlimitedHPCheat,
+                instantTakedownCheat,
             ];
         }
 
         #region HP related events
         private void btnHPToggle_Click(object sender, EventArgs e)
         {
+            var hpCheat = memory.gameCheats.FirstOrDefault(i => i.Name == Cheat_Constants.HP_Player_CheatName);
+            if (hpCheat != null)
+            {
+                if (hpCheat.ApplyCheat())
+                {
+                    lblHPStatus.Text = "ON";
+                    lblHPStatus.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lblHPStatus.Text = "OFF";
+                    lblHPStatus.ForeColor = Color.Red;
+                }
+            }
         }
 
         private void btnTakedownToggle_Click(object sender, EventArgs e)
         {
+            var takedownCheat = memory.gameCheats.FirstOrDefault(i => i.Name == Cheat_Constants.HP_Bot_CheatName);
+            if (takedownCheat != null)
+            {
+                if (takedownCheat.ApplyCheat())
+                {
+                    lblTakedownStatus.Text = "ON";
+                    lblTakedownStatus.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lblTakedownStatus.Text = "OFF";
+                    lblTakedownStatus.ForeColor = Color.Red;
+                }
+            }
         }
         #endregion
 
