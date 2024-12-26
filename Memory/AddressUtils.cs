@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Memory.Core;
 
 namespace Memory
@@ -116,7 +117,7 @@ namespace Memory
                     // types of labels, => Jump(default), Var
                     if (string.Compare(labelType, "Var", true) == 0)
                     {
-                        addressBytes = AddressToBytes(existingLabel.Value);
+                        addressBytes = AddressToBytes(existingLabel.Value).Reverse();
                     }
                     else
                     {
@@ -130,7 +131,9 @@ namespace Memory
 
                     replaceString = String.Join("", addressBytes.Select(i => i.ToString("X").PadLeft(2, '0')));
 
-                    finalString = finalString.Replace($"{{{labelName}}}", replaceString);
+                    var regex = new Regex(Regex.Escape($"{{{labelName}}}"));
+                    finalString = regex.Replace(finalString, replaceString, 1);
+
                     counter = labelName.Length + 2;
                     bytesOffset += 3;
                 }

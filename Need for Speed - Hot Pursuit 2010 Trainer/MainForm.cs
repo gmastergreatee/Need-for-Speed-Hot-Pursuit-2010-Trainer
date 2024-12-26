@@ -59,7 +59,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 
         private void btnHPToggle_Click(object sender, EventArgs e)
         {
-            var nitroCheat = memory.gameCheats.FirstOrDefault(i => i.Name == Cheat_Constants.NitroCheatName);
+            var nitroCheat = memory.gameCheats.FirstOrDefault(i => i.Name == Cheat_Constants.Nitro_Player_CheatName);
             if (nitroCheat != null)
             {
                 if (nitroCheat.ApplyCheat())

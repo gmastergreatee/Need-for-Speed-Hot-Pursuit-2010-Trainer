@@ -7,7 +7,8 @@
         public static uint CodeCaveMinSizeInBytes { get; set; } = 5 * 1024;
 
         #region Nitro Cheat data
-        public const string NitroCheatName = "UnlimitedNitroCheat";
+        public const string Nitro_Player_CheatName = "UnlimitedNitroCheat";
+        public const string NitroTriggerByte_PlayerVariable = "isPlayerFullNitro";
         public static string NitroAccessorAddress { get; set; } = "\"NFS11.exe\"+1D8DA0";
         public static string NitroAccessorBytes { get; set; } = "F3 0F 10 84 0A F4 C6 03 00";
         public static string NitroJumpBytes { get; set; } = @"
@@ -18,12 +19,26 @@
 {:NitroCaveAddress} 60
 83 BC 11 04 C7 03 00 00
 0F 85 {BotNitroCode}
-{:PlayerNitroCode} C7 84 11 F4 C6 03 00 00 00 C8 42
+{:PlayerNitroCode} 80 3D {" + NitroTriggerByte_PlayerVariable + @",var} 01
+0F 85 {NitroEnd}
+C7 84 11 F4 C6 03 00 00 00 C8 42
 E9 {NitroEnd}
-{:BotNitroCode} C7 84 11 F4 C6 03 00 00 00 00 00
+{:BotNitroCode} 80 3D {" + NitroTriggerByte_BotsVariable + @",var} 01
+0F 85 {NitroEnd}
+C7 84 11 F4 C6 03 00 00 00 00 00
 {:NitroEnd} 61
 F3 0F 10 84 11 F4 C6 03 00
-E9 {NitroJumpReturn}";
+E9 {NitroJumpReturn}
+{:" + NitroTriggerByte_PlayerVariable + @"} 00
+{:" + NitroTriggerByte_BotsVariable + @"} 00";
+
+        #region Bots with no nitro
+
+        public const string Nitro_NoBots_CheatName = "UnlimitedNitroCheat";
+        public const string NitroTriggerByte_BotsVariable = "isAllOthersWithoutNitro";
+
+        #endregion
+
         #endregion
 
         public static string UtilsAccessorAddress { get; set; } = "NFS11.exe+176DA3";
