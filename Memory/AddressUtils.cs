@@ -105,18 +105,34 @@ namespace Memory
                 {
                     var lastIndex = asmBytes.IndexOf("}", index, asmBytes.Length - index, StringComparison.Ordinal);
                     var labelName = asmBytes.Substring(index + 1, lastIndex - index - 1);
+                    var labelSplit = labelName.Split(',');
 
                     var replaceString = "";
-                    var existingLabel = StaticVars.GetLabelAddress(labelName);
+                    var existingLabel = StaticVars.GetLabelAddress(labelSplit[0]);
 
                     if (existingLabel != null)
                     {
-                        var hexNumber = String.Join(
-                            "",
-                            BytesForJumpAddress(existingLabel.Value, startAddress + (uint)bytesOffset)
-                                .Select(x => x.ToString("X").PadLeft(2, '0'))
-                        );
-                        replaceString = hexNumber;
+                        IEnumerable<byte>? addressBytes = null;
+                        string labelType = labelSplit.Length > 1 ? labelSplit[1] : "Jump";
+
+                        // types of labels, => Jump(default), Var
+                        if (string.Compare(labelType, "Var", true) == 0)
+                        {
+                            addressBytes = AddressToBytes(existingLabel.Value);
+                        }
+                        else
+                        {
+                            addressBytes = BytesForJumpAddress(existingLabel.Value, startAddress + (uint)bytesOffset);
+                        }
+
+                        if (addressBytes != null)
+                        {
+                            replaceString = String.Join("", addressBytes);
+                        }
+                        else
+                        {
+                            throw new Exception($"Unable to calculate addressBytes for label \"{labelName}\"");
+                        }
                     }
                     else
                     {
@@ -136,6 +152,7 @@ namespace Memory
 
         public static byte[] HexStringToByteArray(string hexString)
         {
+            hexString = hexString.Replace(" ", "").Replace(Environment.NewLine, "").Trim();
             if (hexString.Length % 2 != 0)
             {
                 throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", hexString));

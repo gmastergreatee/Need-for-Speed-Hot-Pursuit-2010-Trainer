@@ -4,7 +4,7 @@ namespace Memory.Core
 {
     public static class StaticVars
     {
-        public static UInt32? CodeCaveAddress { get; set; } = null;
+        public static UInt32? CodeCaveAddress { get; internal set; } = null;
         public static UInt32 CodeCaveUsedBytes { get; set; } = 0;
         public static List<AddressLabelModel> AddressLabels { get; set; } = [];
 
