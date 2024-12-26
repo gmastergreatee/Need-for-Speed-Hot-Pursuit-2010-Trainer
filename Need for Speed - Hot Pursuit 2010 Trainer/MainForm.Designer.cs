@@ -169,7 +169,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(395, 319);
+            ClientSize = new Size(465, 152);
             Controls.Add(label5);
             Controls.Add(lblBotsNoNitro);
             Controls.Add(btnBotsNoNitro);
@@ -183,7 +183,10 @@
             Controls.Add(label1);
             Controls.Add(btnHPToggle);
             Controls.Add(lblTrainerStatus);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(3, 2, 3, 2);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "MainForm";
             Text = "Need for Speed Hot Pursuit 2010 Trainer";
             FormClosing += MainForm_FormClosing;
