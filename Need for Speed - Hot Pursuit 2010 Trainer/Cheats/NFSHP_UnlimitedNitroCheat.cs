@@ -9,7 +9,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
         private Memory.Memory? memory;
         private uint jumpFromThisAddress;
 
-        public NFSHP_UnlimitedNitroCheat() : base(Cheat_Constants.Nitro_Player_CheatName) { }
+        public NFSHP_UnlimitedNitroCheat() { }
 
         public override bool ApplyCheat()
         {
@@ -24,17 +24,17 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
                 return false;
             }
 
-            this.Enabled = !this.Enabled;
+            this.IsEnabled = !this.IsEnabled;
 
             Kernel.WriteProcessMemory(
                 memory.ProcessHandle,
                 isPlayerFullNitro_Address.Value,
-                this.Enabled ? [1] : [0],
+                this.IsEnabled ? [1] : [0],
                 1,
                 out _
             );
 
-            return this.Enabled;
+            return this.IsEnabled;
         }
 
         public override void Dispose()
@@ -93,10 +93,10 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
 
                 StaticVars.CodeCaveUsedBytes += (uint)(caveBytes.Length / 2);
 
-                this.Initialized = true;
+                this.IsInitialized = true;
             }
             catch { }
-            return this.Initialized;
+            return this.IsInitialized;
         }
     }
 }

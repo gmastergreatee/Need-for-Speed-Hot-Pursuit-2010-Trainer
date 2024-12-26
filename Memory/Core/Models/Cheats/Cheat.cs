@@ -2,10 +2,10 @@
 {
     public abstract class Cheat : ICheat
     {
-        public bool Enabled { get; set; } = false;
-        public bool Initialized { get; set; } = false;
+        public bool IsEnabled { get; protected set; } = false;
+        public bool IsInitialized { get; protected set; } = false;
 
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public abstract bool InitializeCheat(Memory memory);
 

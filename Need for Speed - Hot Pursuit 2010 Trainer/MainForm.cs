@@ -9,19 +9,20 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
         System.Timers.Timer timer;
         Memory.Memory memory;
 
-        bool attachedStatus = false;
+        bool? attachedStatus = null;
+        List<Cheat> gameCheats = [];
 
         public MainForm()
         {
-            memory = new Memory.Memory(GetAllCheats(), Cheat_Constants.CodeCaveMinSizeInBytes);
+            this.InitializeCheats();
+
+            memory = new Memory.Memory(gameCheats, Cheat_Constants.CodeCaveMinSizeInBytes);
 
             timer = new System.Timers.Timer(500);
             timer.Elapsed += timer_elapsed;
             timer.Start();
 
             InitializeComponent();
-
-            this.ResetTrainer();
         }
 
         private void timer_elapsed(object? sender, ElapsedEventArgs e)
@@ -30,7 +31,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             {
                 if (memory.OpenProcess(Cheat_Constants.GameExeName))
                 {
-                    if (attachedStatus)
+                    if (attachedStatus == true)
                     {
                         return;
                     }
@@ -38,12 +39,13 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 
                     Invoke(() =>
                     {
+                        EnableDisableTrainer(false);
                         lblTrainerStatus.Text = $"Successfully attached to game process {{{Cheat_Constants.GameExeName}.exe}} (PID: {memory.Process?.Id})";
                     });
                 }
                 else
                 {
-                    if (!attachedStatus)
+                    if (attachedStatus == false)
                     {
                         return;
                     }
@@ -51,6 +53,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 
                     Invoke(() =>
                     {
+                        EnableDisableTrainer(true);
                         lblTrainerStatus.Text = $"Trainer NOT attached to game. Searching for {{{Cheat_Constants.GameExeName}.exe}}...";
                     });
                 }
@@ -58,26 +61,31 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             catch { }
         }
 
-        private void ResetTrainer()
+        private void InitializeCheats()
         {
-            lblTrainerStatus.Text = "";
+            if (gameCheats.Count <= 0)
+            {
+                var unlimitedNitroCheat = new NFSHP_UnlimitedNitroCheat() { Name = Cheat_Constants.Nitro_Player_CheatName };
+                var noBotsWithNitroCheat = new NFSHP_NoBotsWithNitroCheat(unlimitedNitroCheat) { Name = Cheat_Constants.Nitro_NoBots_CheatName };
+
+                var unlimitedHPCheat = new NFSHP_UnlimitedHPCheat() { Name = Cheat_Constants.HP_Player_CheatName };
+                var instantTakedownCheat = new NFSHP_InstantTakedownCheat(unlimitedHPCheat) { Name = Cheat_Constants.HP_Bot_CheatName };
+
+                gameCheats.AddRange([
+                    unlimitedNitroCheat,
+                    noBotsWithNitroCheat,
+                    unlimitedHPCheat,
+                    instantTakedownCheat,
+                ]);
+            }
         }
 
-        private List<Cheat> GetAllCheats()
+        private void EnableDisableTrainer(bool isDisabled)
         {
-            var unlimitedNitroCheat = new NFSHP_UnlimitedNitroCheat();
-            var noBotsWithNitroCheat = new NFSHP_NoBotsWithNitroCheat(unlimitedNitroCheat);
-
-            var unlimitedHPCheat = new NFSHP_UnlimitedHPCheat();
-            var instantTakedownCheat = new NFSHP_InstantTakedownCheat(unlimitedHPCheat);
-
-            return
-            [
-                unlimitedNitroCheat,
-                noBotsWithNitroCheat,
-                unlimitedHPCheat,
-                instantTakedownCheat,
-            ];
+            btnHPToggle.Enabled = !isDisabled;
+            btnTakedownToggle.Enabled = !isDisabled;
+            btnNitroToggle.Enabled = !isDisabled;
+            btnBotsNoNitro.Enabled = !isDisabled;
         }
 
         #region HP related events

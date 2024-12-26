@@ -67,17 +67,12 @@ namespace Memory
             }
 
             // apply cheats which have already been enabled previously
-            foreach (var cheat in gameCheats.Where(i => i.Enabled && i.Initialized))
+            foreach (var cheat in gameCheats.Where(i => i.IsEnabled && i.IsInitialized))
             {
-                this.ApplyCheat(cheat);
+                cheat.ApplyCheat();
             }
 
             return true;
-        }
-
-        public void ApplyCheat(Cheat cheat)
-        {
-            cheat.ApplyCheat();
         }
 
         public void Dispose()

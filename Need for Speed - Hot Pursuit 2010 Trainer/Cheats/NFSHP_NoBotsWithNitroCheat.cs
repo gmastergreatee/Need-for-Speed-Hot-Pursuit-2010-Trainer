@@ -8,7 +8,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
         private Memory.Memory? memory;
 
         // just a dummy reference coz this cheat needs NFSHP_UnlimitedNitroCheat to be initialized
-        public NFSHP_NoBotsWithNitroCheat(NFSHP_UnlimitedNitroCheat unlimitedNitroCheat) : base(Cheat_Constants.Nitro_NoBots_CheatName) { }
+        public NFSHP_NoBotsWithNitroCheat(NFSHP_UnlimitedNitroCheat unlimitedNitroCheat) { }
 
         public override bool ApplyCheat()
         {
@@ -23,16 +23,16 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
                 return false;
             }
 
-            this.Enabled = !this.Enabled;
+            this.IsEnabled = !this.IsEnabled;
             Kernel.WriteProcessMemory(
                 memory.ProcessHandle,
                 isAllOthersWithoutNitro_Address.Value,
-                this.Enabled ? [1] : [0],
+                this.IsEnabled ? [1] : [0],
                 1,
                 out _
             );
 
-            return this.Enabled;
+            return this.IsEnabled;
         }
 
         public override void Dispose()
