@@ -65,11 +65,11 @@ namespace Memory
                 // initialize cheats
                 foreach (var cheat in gameCheats)
                 {
-                    cheat.InitializeCheat();
+                    cheat.InitializeCheat(this);
                 }
 
                 // apply cheats which have already been enabled previously
-                foreach (var cheat in gameCheats.Where(i => i.Enabled))
+                foreach (var cheat in gameCheats.Where(i => i.Enabled && i.Initialized))
                 {
                     this.ApplyCheat(cheat);
                 }

@@ -51,7 +51,10 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 
         private List<Cheat> GetAllCheats()
         {
-            return [];
+            return
+            [
+                new NFSHP_UnlimitedNitroCheat(),
+            ];
         }
     }
 }
