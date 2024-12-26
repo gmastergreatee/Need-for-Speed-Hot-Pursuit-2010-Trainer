@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Memory.Core.Models.Cheats
+﻿namespace Memory.Core.Models.Cheats
 {
     public abstract class Cheat : ICheat
     {

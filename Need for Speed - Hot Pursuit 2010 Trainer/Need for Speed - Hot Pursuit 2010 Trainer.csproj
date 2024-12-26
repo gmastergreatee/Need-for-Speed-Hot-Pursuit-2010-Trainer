@@ -13,6 +13,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="MemoryDll\**" />
+	  <EmbeddedResource Remove="MemoryDll\**" />
+	  <None Remove="MemoryDll\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Need for Speed™ Hot Pursuit.CT" />
 	</ItemGroup>
 

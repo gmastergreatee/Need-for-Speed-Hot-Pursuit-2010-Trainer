@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Memory.Core;
-using Memory;
+﻿using Memory.Core;
 using Memory.Core.Models.Cheats;
 
 namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
