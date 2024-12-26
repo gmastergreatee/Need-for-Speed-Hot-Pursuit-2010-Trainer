@@ -48,37 +48,31 @@ namespace Memory
 
         private bool Initialize()
         {
-            try
+            // create code cave if required
+            if (_codeCaveSize != null && _codeCaveSize > 0)
             {
-                // create code cave if required
-                if (_codeCaveSize != null && _codeCaveSize > 0)
-                {
-                    StaticVars.CodeCaveAddress = Kernel.VirtualAllocEx(
-                        ProcessHandle,
-                        (UIntPtr)null,
-                        _codeCaveSize.Value,
-                        Kernel.Imps.FL_AllocationType.MEM_COMMIT | Kernel.Imps.FL_AllocationType.MEM_RESERVE,
-                        Kernel.Imps.FL_Protection.PAGE_EXECUTE_READWRITE
-                    );
-                }
-
-                // initialize cheats
-                foreach (var cheat in gameCheats)
-                {
-                    cheat.InitializeCheat(this);
-                }
-
-                // apply cheats which have already been enabled previously
-                foreach (var cheat in gameCheats.Where(i => i.Enabled && i.Initialized))
-                {
-                    this.ApplyCheat(cheat);
-                }
-
-                return true;
+                StaticVars.CodeCaveAddress = Kernel.VirtualAllocEx(
+                    ProcessHandle,
+                    (UIntPtr)null,
+                    _codeCaveSize.Value,
+                    Kernel.Imps.FL_AllocationType.MEM_COMMIT | Kernel.Imps.FL_AllocationType.MEM_RESERVE,
+                    Kernel.Imps.FL_Protection.PAGE_EXECUTE_READWRITE
+                );
             }
-            catch (Exception ex) { }
 
-            return false;
+            // initialize cheats
+            foreach (var cheat in gameCheats)
+            {
+                cheat.InitializeCheat(this);
+            }
+
+            // apply cheats which have already been enabled previously
+            foreach (var cheat in gameCheats.Where(i => i.Enabled && i.Initialized))
+            {
+                this.ApplyCheat(cheat);
+            }
+
+            return true;
         }
 
         public void ApplyCheat(Cheat cheat)
