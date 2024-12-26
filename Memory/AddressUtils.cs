@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Memory.Core;
 
 namespace Memory
 {
@@ -53,6 +54,33 @@ namespace Memory
             var addressByteLengthInMemory = 4;
             var final = jumpDestination - addressWhereToPlaceBytes - addressByteLengthInMemory;
             return BitConverter.GetBytes(final).Take(addressByteLengthInMemory);
+        }
+
+        public static string ParseAsm_CreateLabels(UInt32 startAddress, string asmBytes)
+        {
+            asmBytes = asmBytes.Replace(" ", "").Replace(Environment.NewLine, "").Trim();
+            var finalString = asmBytes;
+            var index = 0;
+            while (index < asmBytes.Length)
+            {
+                var counter = 2;
+
+                if (asmBytes[index] == '{')
+                {
+                    var lastIndex = asmBytes.IndexOf("}", index, asmBytes.Length - index, StringComparison.Ordinal);
+                    var labelName = asmBytes.Substring(index + 1, lastIndex - index - 1);
+                    if (labelName.StartsWith(':'))
+                    {
+                        // means this is a jump point
+                        StaticVars.AddLabel(labelName.Substring(1), startAddress + (UInt32)index);
+                        finalString = finalString.Replace($"{{{labelName}}}", "");
+                    }
+                    counter = labelName.Length + 2;
+                }
+
+                index += counter;
+            }
+            return finalString;
         }
     }
 }
