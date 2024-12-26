@@ -2,7 +2,7 @@
 
 namespace Memory.Core
 {
-    internal static class Kernel
+    public static class Kernel
     {
         internal static class Imps
         {
@@ -30,10 +30,10 @@ namespace Memory.Core
         public static extern Int32 CloseHandle(IntPtr hObject);
 
         [DllImport("kernel32.dll")]
-        public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] byte[] lpBuffer, UIntPtr nSize, IntPtr lpNumberOfBytesRead);
+        public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] byte[] lpBuffer, UInt32 nSize, IntPtr lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll")]
-        public static extern bool WriteProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, byte[] lpBuffer, UIntPtr nSize, IntPtr lpNumberOfBytesWritten);
+        public static extern bool WriteProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, byte[] lpBuffer, UInt32 nSize, out int lpNumberOfBytesWritten);
 
         /// <summary>
         /// <para>Reserves, commits, or changes the state of a region of memory within the virtual address space of a specified process.</para>

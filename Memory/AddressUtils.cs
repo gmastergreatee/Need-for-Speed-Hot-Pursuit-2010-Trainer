@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +82,63 @@ namespace Memory
                 index += counter;
             }
             return finalString;
+        }
+
+        public static string ParseAsm_AssignLabels(UInt32 startAddress, string asmBytes)
+        {
+            asmBytes = asmBytes.Replace(" ", "").Replace(Environment.NewLine, "").Trim();
+            var finalString = asmBytes;
+            var index = 0;
+            while (index < asmBytes.Length)
+            {
+                var counter = 2;
+
+                if (asmBytes[index] == '{')
+                {
+                    var lastIndex = asmBytes.IndexOf("}", index, asmBytes.Length - index, StringComparison.Ordinal);
+                    var labelName = asmBytes.Substring(index + 1, lastIndex - index - 1);
+
+                    var replaceString = "";
+                    var existingLabel = StaticVars.GetLabelAddress(labelName);
+                    if (existingLabel != null)
+                    {
+                        var hexNumber = String.Join(
+                            "",
+                            BytesForJumpAddress(existingLabel.Value, startAddress + (uint)index)
+                                .Select(x => x.ToString("X").PadLeft(2, '0'))
+                                .Reverse()
+                        );
+                        replaceString = hexNumber;
+                    }
+                    else
+                    {
+                        throw new Exception($"Could not get address of label \"{labelName}\"");
+                    }
+
+                    finalString = finalString.Replace($"{{{labelName}}}", replaceString);
+                    counter = labelName.Length + 2;
+                }
+
+                index += counter;
+            }
+            return finalString;
+        }
+
+        public static byte[] HexStringToByteArray(string hexString)
+        {
+            if (hexString.Length % 2 != 0)
+            {
+                throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", hexString));
+            }
+
+            var data = new byte[hexString.Length / 2];
+            for (int index = 0; index < data.Length; index++)
+            {
+                var byteValue = hexString.Substring(index * 2, 2);
+                data[index] = byte.Parse(byteValue, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+            }
+
+            return data;
         }
     }
 }
