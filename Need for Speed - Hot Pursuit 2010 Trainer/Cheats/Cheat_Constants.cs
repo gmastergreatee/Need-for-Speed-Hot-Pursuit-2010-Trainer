@@ -12,7 +12,8 @@
         public static string NitroAccessorBytes { get; set; } = "F3 0F 10 84 0A F4 C6 03 00";
         public static string NitroJumpBytes { get; set; } = @"
 {:NitroJumpAddress} E9 {NitroCaveAddress}
-90 90 90 90";
+90 90 90 90
+{:NitroJumpReturn}";
         public static string NitroCaveBytes { get; set; } = @"
 {:NitroCaveAddress} 60
 83 BC 11 04 C7 03 00 00
@@ -22,7 +23,7 @@ E9 {NitroEnd}
 {:BotNitroCode} C7 84 11 F4 C6 03 00 00 00 00 00
 {:NitroEnd} 61
 F3 0F 10 84 11 F4 C6 03 00
-E9 {NitroJumpAddress+9}";
+E9 {NitroJumpReturn}";
         #endregion
 
         public static string UtilsAccessorAddress { get; set; } = "NFS11.exe+176DA3";

@@ -62,6 +62,7 @@ namespace Memory
             asmBytes = asmBytes.Replace(" ", "").Replace(Environment.NewLine, "").Trim();
             var finalString = asmBytes;
             var index = 0;
+            var byteOffset = 0;
             while (index < asmBytes.Length)
             {
                 var counter = 2;
@@ -73,13 +74,19 @@ namespace Memory
                     if (labelName.StartsWith(':'))
                     {
                         // means this is a jump point
-                        StaticVars.AddLabel(labelName.Substring(1), startAddress + (UInt32)index);
+                        StaticVars.AddLabel(labelName.Substring(1), startAddress + (UInt32)byteOffset);
                         finalString = finalString.Replace($"{{{labelName}}}", "");
+                        byteOffset--;
+                    }
+                    else
+                    {
+                        byteOffset += 3;
                     }
                     counter = labelName.Length + 2;
                 }
 
                 index += counter;
+                byteOffset++;
             }
             return finalString;
         }
@@ -89,6 +96,7 @@ namespace Memory
             asmBytes = asmBytes.Replace(" ", "").Replace(Environment.NewLine, "").Trim();
             var finalString = asmBytes;
             var index = 0;
+            var bytesOffset = 0;
             while (index < asmBytes.Length)
             {
                 var counter = 2;
@@ -100,13 +108,13 @@ namespace Memory
 
                     var replaceString = "";
                     var existingLabel = StaticVars.GetLabelAddress(labelName);
+
                     if (existingLabel != null)
                     {
                         var hexNumber = String.Join(
                             "",
-                            BytesForJumpAddress(existingLabel.Value, startAddress + (uint)index)
+                            BytesForJumpAddress(existingLabel.Value, startAddress + (uint)bytesOffset)
                                 .Select(x => x.ToString("X").PadLeft(2, '0'))
-                                .Reverse()
                         );
                         replaceString = hexNumber;
                     }
@@ -117,9 +125,11 @@ namespace Memory
 
                     finalString = finalString.Replace($"{{{labelName}}}", replaceString);
                     counter = labelName.Length + 2;
+                    bytesOffset += 3;
                 }
 
                 index += counter;
+                bytesOffset++;
             }
             return finalString;
         }
