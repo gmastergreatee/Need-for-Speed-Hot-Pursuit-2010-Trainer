@@ -17,5 +17,13 @@ namespace Memory
         {
             throw new NotImplementedException();
         }
+
+        public static IEnumerable<byte> BytesForJumpAddress(uint jumpDestination, uint addressWhereToPlaceBytes)
+        {
+            // maybe need to change in 64 bit process
+            var addressByteLengthInMemory = 4;
+            var final = jumpDestination - addressWhereToPlaceBytes - addressByteLengthInMemory;
+            return BitConverter.GetBytes(final).Take(addressByteLengthInMemory);
+        }
     }
 }
