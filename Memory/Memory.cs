@@ -23,34 +23,67 @@ namespace Memory
             var procs = Process.GetProcessesByName(processName);
             if (procs.Length <= 0) { return false; }
 
+            int? oldPid = this.Process?.Id;
+
             this.Process = procs[0];
             this.ProcessHandle = Kernel.OpenProcess(Kernel.Imps.DW_DesiredAccess.PROCESS_ALL_ACCESS, true, this.Process.Id);
 
             if (this.ProcessHandle == IntPtr.Zero) { return false; }
-            this.Initialize();
+
+            if (oldPid != this.Process.Id)
+            {
+                // cleanup old variables
+                this.CleanupStaticVars();
+                this.Initialize();
+            }
 
             return true;
         }
 
+        private void CleanupStaticVars()
+        {
+            StaticVars.CodeCaveAddress = null;
+            StaticVars.AddressLabels = [];
+        }
+
         private bool Initialize()
         {
-            if (_codeCaveSize != null && _codeCaveSize > 0)
+            try
             {
-                StaticVars.CodeCaveAddress = Kernel.VirtualAllocEx(
-                    ProcessHandle,
-                    (UIntPtr)null,
-                    _codeCaveSize.Value,
-                    Kernel.Imps.FL_AllocationType.MEM_COMMIT | Kernel.Imps.FL_AllocationType.MEM_RESERVE,
-                    Kernel.Imps.FL_Protection.PAGE_EXECUTE_READWRITE
-                );
-            }
+                // create code cave if required
+                if (_codeCaveSize != null && _codeCaveSize > 0)
+                {
+                    StaticVars.CodeCaveAddress = Kernel.VirtualAllocEx(
+                        ProcessHandle,
+                        (UIntPtr)null,
+                        _codeCaveSize.Value,
+                        Kernel.Imps.FL_AllocationType.MEM_COMMIT | Kernel.Imps.FL_AllocationType.MEM_RESERVE,
+                        Kernel.Imps.FL_Protection.PAGE_EXECUTE_READWRITE
+                    );
+                }
 
-            foreach (var cheat in gameCheats)
-            {
-                cheat.InitializeCheat();
-            }
+                // initialize cheats
+                foreach (var cheat in gameCheats)
+                {
+                    cheat.InitializeCheat();
+                }
 
-            return true;
+                // apply cheats which have already been enabled previously
+                foreach (var cheat in gameCheats.Where(i => i.Enabled))
+                {
+                    this.ApplyCheat(cheat);
+                }
+
+                return true;
+            }
+            catch (Exception ex) { }
+
+            return false;
+        }
+
+        public void ApplyCheat(Cheat cheat)
+        {
+            cheat.ApplyCheat();
         }
     }
 }

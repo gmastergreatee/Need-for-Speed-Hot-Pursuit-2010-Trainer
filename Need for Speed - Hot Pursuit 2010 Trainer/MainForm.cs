@@ -1,19 +1,18 @@
 using System.Timers;
-using MemoryDll;
+using Memory.Core.Models.Cheats;
+using Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats;
 
 namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 {
     public partial class MainForm : Form
     {
         System.Timers.Timer timer;
-        Mem m = new Mem();
-
-        const string gameExeName = "NFS11";
-        bool isAttached = false;
-        int processId = 0;
+        Memory.Memory memory;
 
         public MainForm()
         {
+            memory = new Memory.Memory(GetAllCheats(), Cheat_Constants.CodeCaveMinSizeInBytes);
+
             timer = new System.Timers.Timer(200);
             timer.Elapsed += timer_elapsed;
             timer.Start();
@@ -25,31 +24,24 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 
         private void timer_elapsed(object? sender, ElapsedEventArgs e)
         {
-            var pid = m.GetProcIdFromName(gameExeName);
-            if (isAttached && pid == 0)
+            if (memory.OpenProcess(Cheat_Constants.GameExeName))
             {
-                this.ResetTrainer();
+                lblTrainerStatus.Text = $"Successfully attached to game process (PID: {memory.Process?.Id})";
             }
-
-            if (
-                (isAttached && processId != pid) ||
-                (!isAttached && pid != 0)
-            )
+            else
             {
-                processId = pid;
-                this.PrepareForCodeInjection();
+                lblTrainerStatus.Text = "Trainer NOT attached to game. Searching for NFS11.exe...";
             }
         }
 
         private void ResetTrainer()
         {
-            isAttached = false;
-            processId = 0;
+            lblTrainerStatus.Text = "";
         }
 
-        private void PrepareForCodeInjection()
+        private List<Cheat> GetAllCheats()
         {
-
+            return [];
         }
     }
 }

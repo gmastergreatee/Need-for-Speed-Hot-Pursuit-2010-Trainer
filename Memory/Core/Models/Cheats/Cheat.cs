@@ -8,6 +8,8 @@ namespace Memory.Core.Models.Cheats
 {
     public abstract class Cheat : ICheat
     {
+        public bool Enabled { get; set; } = false;
+
         public required string Name { get; set; }
 
         public abstract bool InitializeCheat();
