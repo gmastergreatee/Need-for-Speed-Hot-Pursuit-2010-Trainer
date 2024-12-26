@@ -35,6 +35,12 @@
             label2 = new Label();
             lblHPStatus = new Label();
             lblTakedownStatus = new Label();
+            btnNitroToggle = new Button();
+            label3 = new Label();
+            lblFullNitro = new Label();
+            btnBotsNoNitro = new Button();
+            lblBotsNoNitro = new Label();
+            label5 = new Label();
             SuspendLayout();
             // 
             // lblTrainerStatus
@@ -49,7 +55,7 @@
             // 
             // btnHPToggle
             // 
-            btnHPToggle.Location = new Point(121, 27);
+            btnHPToggle.Location = new Point(172, 27);
             btnHPToggle.Name = "btnHPToggle";
             btnHPToggle.Size = new Size(75, 23);
             btnHPToggle.TabIndex = 1;
@@ -68,12 +74,13 @@
             // 
             // btnTakedownToggle
             // 
-            btnTakedownToggle.Location = new Point(121, 56);
+            btnTakedownToggle.Location = new Point(172, 56);
             btnTakedownToggle.Name = "btnTakedownToggle";
             btnTakedownToggle.Size = new Size(75, 23);
             btnTakedownToggle.TabIndex = 3;
             btnTakedownToggle.Text = "Toggle";
             btnTakedownToggle.UseVisualStyleBackColor = true;
+            btnTakedownToggle.Click += btnTakedownToggle_Click;
             // 
             // label2
             // 
@@ -87,7 +94,7 @@
             // lblHPStatus
             // 
             lblHPStatus.AutoSize = true;
-            lblHPStatus.Location = new Point(202, 31);
+            lblHPStatus.Location = new Point(253, 31);
             lblHPStatus.Name = "lblHPStatus";
             lblHPStatus.Size = new Size(28, 15);
             lblHPStatus.TabIndex = 5;
@@ -96,17 +103,79 @@
             // lblTakedownStatus
             // 
             lblTakedownStatus.AutoSize = true;
-            lblTakedownStatus.Location = new Point(202, 60);
+            lblTakedownStatus.Location = new Point(253, 60);
             lblTakedownStatus.Name = "lblTakedownStatus";
             lblTakedownStatus.Size = new Size(28, 15);
             lblTakedownStatus.TabIndex = 6;
             lblTakedownStatus.Text = "OFF";
+            // 
+            // btnNitroToggle
+            // 
+            btnNitroToggle.Location = new Point(172, 85);
+            btnNitroToggle.Name = "btnNitroToggle";
+            btnNitroToggle.Size = new Size(75, 23);
+            btnNitroToggle.TabIndex = 7;
+            btnNitroToggle.Text = "Toggle";
+            btnNitroToggle.UseVisualStyleBackColor = true;
+            btnNitroToggle.Click += btnNitroToggle_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 89);
+            label3.Name = "label3";
+            label3.Size = new Size(56, 15);
+            label3.TabIndex = 8;
+            label3.Text = "Full Nitro";
+            // 
+            // lblFullNitro
+            // 
+            lblFullNitro.AutoSize = true;
+            lblFullNitro.Location = new Point(253, 89);
+            lblFullNitro.Name = "lblFullNitro";
+            lblFullNitro.Size = new Size(28, 15);
+            lblFullNitro.TabIndex = 9;
+            lblFullNitro.Text = "OFF";
+            // 
+            // btnBotsNoNitro
+            // 
+            btnBotsNoNitro.Location = new Point(172, 114);
+            btnBotsNoNitro.Name = "btnBotsNoNitro";
+            btnBotsNoNitro.Size = new Size(75, 23);
+            btnBotsNoNitro.TabIndex = 10;
+            btnBotsNoNitro.Text = "Toggle";
+            btnBotsNoNitro.UseVisualStyleBackColor = true;
+            btnBotsNoNitro.Click += btnBotsNoNitro_Click;
+            // 
+            // lblBotsNoNitro
+            // 
+            lblBotsNoNitro.AutoSize = true;
+            lblBotsNoNitro.Location = new Point(253, 118);
+            lblBotsNoNitro.Name = "lblBotsNoNitro";
+            lblBotsNoNitro.Size = new Size(28, 15);
+            lblBotsNoNitro.TabIndex = 11;
+            lblBotsNoNitro.Text = "OFF";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 118);
+            label5.Name = "label5";
+            label5.Size = new Size(107, 15);
+            label5.TabIndex = 12;
+            label5.Text = "Bots With No Nitro";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(395, 319);
+            Controls.Add(label5);
+            Controls.Add(lblBotsNoNitro);
+            Controls.Add(btnBotsNoNitro);
+            Controls.Add(lblFullNitro);
+            Controls.Add(label3);
+            Controls.Add(btnNitroToggle);
             Controls.Add(lblTakedownStatus);
             Controls.Add(lblHPStatus);
             Controls.Add(label2);
@@ -130,5 +199,11 @@
         private Label label2;
         private Label lblHPStatus;
         private Label lblTakedownStatus;
+        private Button btnNitroToggle;
+        private Label label3;
+        private Label lblFullNitro;
+        private Button btnBotsNoNitro;
+        private Label lblBotsNoNitro;
+        private Label label5;
     }
 }

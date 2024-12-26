@@ -13,9 +13,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
     {
         private Memory.Memory? memory;
 
-        public NFSHP_UnlimitedNitroCheat() : base(Cheat_Constants.Nitro_Player_CheatName)
-        {
-        }
+        public NFSHP_UnlimitedNitroCheat() : base(Cheat_Constants.Nitro_Player_CheatName) { }
 
         public override bool ApplyCheat()
         {

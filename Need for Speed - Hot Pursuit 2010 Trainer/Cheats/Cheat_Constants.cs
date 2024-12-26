@@ -34,7 +34,7 @@ E9 {NitroJumpReturn}
 
         #region Bots with no nitro
 
-        public const string Nitro_NoBots_CheatName = "UnlimitedNitroCheat";
+        public const string Nitro_NoBots_CheatName = "BotsNoNitroCheat";
         public const string NitroTriggerByte_BotsVariable = "isAllOthersWithoutNitro";
 
         #endregion
