@@ -52,7 +52,7 @@
             btnAttach.Text = "Load";
             btnAttach.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -60,7 +60,7 @@
             Controls.Add(btnAttach);
             Controls.Add(lblTrainerStatus);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Need for Speed Hot Pursuit 2010 Trainer";
             ResumeLayout(false);
             PerformLayout();

@@ -24,14 +24,24 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
 
         private void timer_elapsed(object? sender, ElapsedEventArgs e)
         {
-            if (memory.OpenProcess(Cheat_Constants.GameExeName))
+            try
             {
-                lblTrainerStatus.Text = $"Successfully attached to game process (PID: {memory.Process?.Id})";
+                if (memory.OpenProcess(Cheat_Constants.GameExeName))
+                {
+                    Invoke(() =>
+                    {
+                        lblTrainerStatus.Text = $"Successfully attached to game process {{{Cheat_Constants.GameExeName}.exe}} (PID: {memory.Process?.Id})";
+                    });
+                }
+                else
+                {
+                    Invoke(() =>
+                    {
+                        lblTrainerStatus.Text = $"Trainer NOT attached to game. Searching for {{{Cheat_Constants.GameExeName}.exe}}...";
+                    });
+                }
             }
-            else
-            {
-                lblTrainerStatus.Text = "Trainer NOT attached to game. Searching for NFS11.exe...";
-            }
+            catch { }
         }
 
         private void ResetTrainer()
