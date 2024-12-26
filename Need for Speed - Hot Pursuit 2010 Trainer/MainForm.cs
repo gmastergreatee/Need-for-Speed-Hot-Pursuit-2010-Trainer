@@ -56,5 +56,23 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
                 new NFSHP_UnlimitedNitroCheat(),
             ];
         }
+
+        private void btnHPToggle_Click(object sender, EventArgs e)
+        {
+            var nitroCheat = memory.gameCheats.FirstOrDefault(i => i.Name == Cheat_Constants.NitroCheatName);
+            if (nitroCheat != null)
+            {
+                if (nitroCheat.ApplyCheat())
+                {
+                    lblHPStatus.Text = "ON";
+                    lblHPStatus.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lblHPStatus.Text = "OFF";
+                    lblHPStatus.ForeColor = Color.Red;
+                }
+            }
+        }
     }
 }

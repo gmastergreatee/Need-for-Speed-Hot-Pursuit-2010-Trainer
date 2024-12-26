@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Memory.Core;
 
 namespace Memory
@@ -110,34 +105,30 @@ namespace Memory
                     var replaceString = "";
                     var existingLabel = StaticVars.GetLabelAddress(labelSplit[0]);
 
-                    if (existingLabel != null)
-                    {
-                        IEnumerable<byte>? addressBytes = null;
-                        string labelType = labelSplit.Length > 1 ? labelSplit[1] : "Jump";
-
-                        // types of labels, => Jump(default), Var
-                        if (string.Compare(labelType, "Var", true) == 0)
-                        {
-                            addressBytes = AddressToBytes(existingLabel.Value);
-                        }
-                        else
-                        {
-                            addressBytes = BytesForJumpAddress(existingLabel.Value, startAddress + (uint)bytesOffset);
-                        }
-
-                        if (addressBytes != null)
-                        {
-                            replaceString = String.Join("", addressBytes);
-                        }
-                        else
-                        {
-                            throw new Exception($"Unable to calculate addressBytes for label \"{labelName}\"");
-                        }
-                    }
-                    else
+                    if (existingLabel == null)
                     {
                         throw new Exception($"Could not get address of label \"{labelName}\"");
                     }
+
+                    IEnumerable<byte>? addressBytes = null;
+                    string labelType = labelSplit.Length > 1 ? labelSplit[1] : "Jump";
+
+                    // types of labels, => Jump(default), Var
+                    if (string.Compare(labelType, "Var", true) == 0)
+                    {
+                        addressBytes = AddressToBytes(existingLabel.Value);
+                    }
+                    else
+                    {
+                        addressBytes = BytesForJumpAddress(existingLabel.Value, startAddress + (uint)bytesOffset);
+                    }
+
+                    if (addressBytes == null)
+                    {
+                        throw new Exception($"Unable to calculate addressBytes for label \"{labelName}\"");
+                    }
+
+                    replaceString = String.Join("", addressBytes.Select(i => i.ToString("X").PadLeft(2, '0')));
 
                     finalString = finalString.Replace($"{{{labelName}}}", replaceString);
                     counter = labelName.Length + 2;

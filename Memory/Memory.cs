@@ -6,7 +6,7 @@ namespace Memory
 {
     public class Memory
     {
-        private readonly List<Cheat> gameCheats;
+        public readonly List<Cheat> gameCheats;
         private readonly uint? _codeCaveSize;
 
         public Process? Process { get; private set; }
