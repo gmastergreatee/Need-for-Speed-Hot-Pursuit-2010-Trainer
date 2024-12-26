@@ -13,7 +13,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
             var processName = Path.GetFileNameWithoutExtension(Environment.ProcessPath);
             if (Process.GetProcessesByName(processName).Length > 1)
             {
-                MessageBox.Show("Only one instance of the program may be running at a time", Cheats.NFSHP_Constants.FormTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Only one instance of the program may be running at a time", Cheats.Cheat_Constants.FormTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
 
