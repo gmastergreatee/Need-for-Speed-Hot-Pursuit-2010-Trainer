@@ -123,5 +123,9 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer
         }
         #endregion
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            memory.Dispose();
+        }
     }
 }

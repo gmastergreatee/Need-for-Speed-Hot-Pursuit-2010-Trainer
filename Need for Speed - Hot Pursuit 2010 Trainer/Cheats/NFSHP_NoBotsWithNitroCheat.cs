@@ -41,6 +41,11 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
             return this.Enabled;
         }
 
+        public override void Dispose()
+        {
+            // Do nothing coz nothing was injected in this cheat
+        }
+
         public override bool InitializeCheat(Memory.Memory memory)
         {
             this.memory = memory;

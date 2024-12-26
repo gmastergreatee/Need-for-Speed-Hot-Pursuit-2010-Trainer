@@ -4,7 +4,7 @@ using Memory.Core.Models.Cheats;
 
 namespace Memory
 {
-    public class Memory
+    public class Memory : IDisposable
     {
         public readonly List<Cheat> gameCheats;
         private readonly uint? _codeCaveSize;
@@ -84,6 +84,25 @@ namespace Memory
         public void ApplyCheat(Cheat cheat)
         {
             cheat.ApplyCheat();
+        }
+
+        public void Dispose()
+        {
+            // dispose all disposable cheats
+            foreach (IDisposable cheat in gameCheats.Where(i => i is IDisposable).Cast<IDisposable>())
+            {
+                cheat.Dispose();
+            }
+
+            // de-commit the code-cave
+            if (_codeCaveSize != null && _codeCaveSize > 0 && StaticVars.CodeCaveAddress != null)
+            {
+                Kernel.VirtualFreeEx(ProcessHandle, (UIntPtr)StaticVars.CodeCaveAddress, _codeCaveSize.Value, Kernel.Imps.DW_FreeType.MEM_DECOMMIT);
+            }
+
+            // close the process handle
+            _ = Kernel.CloseHandle(ProcessHandle);
+            GC.SuppressFinalize(this);
         }
     }
 }

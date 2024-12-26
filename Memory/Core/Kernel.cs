@@ -21,6 +21,11 @@ namespace Memory.Core
             {
                 public static uint PAGE_EXECUTE_READWRITE = 0x40;
             }
+
+            internal static class DW_FreeType
+            {
+                public static uint MEM_DECOMMIT = 0x00004000;
+            }
         }
 
         [DllImport("kernel32.dll")]
@@ -62,5 +67,8 @@ namespace Memory.Core
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         public static extern UInt32 VirtualAllocEx(IntPtr hProcess, UIntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
 
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        public static extern bool VirtualFreeEx(IntPtr hProcess, UIntPtr lpAddress, uint dwSize, uint dwFreeType);
     }
 }

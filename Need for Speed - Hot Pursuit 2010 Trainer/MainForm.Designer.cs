@@ -186,6 +186,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "MainForm";
             Text = "Need for Speed Hot Pursuit 2010 Trainer";
+            FormClosing += MainForm_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

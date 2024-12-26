@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Memory;
+﻿using Memory;
 using Memory.Core;
 using Memory.Core.Models.Cheats;
 
@@ -12,6 +7,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
     internal class NFSHP_UnlimitedNitroCheat : CodeInjectionCheat
     {
         private Memory.Memory? memory;
+        private uint jumpFromThisAddress;
 
         public NFSHP_UnlimitedNitroCheat() : base(Cheat_Constants.Nitro_Player_CheatName) { }
 
@@ -41,6 +37,24 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
             return this.Enabled;
         }
 
+        public override void Dispose()
+        {
+            if (memory == null || memory.Process == null || memory.Process.HasExited)
+            {
+                return;
+            }
+
+            var nitroOriginalBytes = Cheat_Constants.NitroAccessorBytes.Replace(" ", "").Replace(Environment.NewLine, "").Trim();
+
+            Kernel.WriteProcessMemory(
+                memory.ProcessHandle,
+                this.jumpFromThisAddress,
+                AddressUtils.HexStringToByteArray(nitroOriginalBytes),
+                (UInt32)nitroOriginalBytes.Length / 2,
+                out int bytesWritten
+            );
+        }
+
         public override bool InitializeCheat(Memory.Memory memory)
         {
             this.memory = memory;
@@ -52,7 +66,7 @@ namespace Need_for_Speed___Hot_Pursuit_2010_Trainer.Cheats
                     throw new Exception($"[{this.Name}] : Unable to get target jump address");
                 }
 
-                var jumpFromThisAddress = targetToJumpFrom_Address.Value;
+                this.jumpFromThisAddress = targetToJumpFrom_Address.Value;
                 var codeCaveAddress = StaticVars.CodeCaveAddress.Value + StaticVars.CodeCaveUsedBytes;
 
                 var jumpBytes = AddressUtils.ParseAsm_CreateLabels(jumpFromThisAddress, Cheat_Constants.NitroJumpBytes);
